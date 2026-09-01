@@ -10,6 +10,16 @@ on:
         description: 'Run custom command before building'
         required: false
         type: string
+      github_release:
+        description: 'Upload to Github release'
+        required: false
+        default: true
+        type: boolean
+      mpv_tarball:
+        description: 'Build latest mpv tarball'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build_llvm:
@@ -30,8 +40,6 @@ jobs:
           git config --global --add safe.directory $PWD
 
       - uses: actions/checkout@main
-        with:
-          ref: master
 
       - name: Loading clang root
         id: clang_root_cache
@@ -206,18 +214,12 @@ jobs:
     name: Run mpv_clang
     runs-on: ubuntu-latest
     needs: build_llvm
+    permissions:
+      actions: write
     env:
       GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
     steps:
       - name: Run mpv_clang.yml
         run: |
-          curl -u shinchiro:$GH_TOKEN -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shinchiro/mpv-winbuild-cmake/actions/workflows/mpv_clang.yml/dispatches -d @- <<EOF
-          {
-            "ref": "master",
-            "inputs": {
-              "sourceforge": "false",
-              "github_release": "false",
-              "mpv_tarball": "false"
-            }
-          }
-          EOF
+          gh workflow run 'mpv clang' -f github_release=${{inputs.github_release}} -f mpv_tarball=${{inputs.mpv_tarball}} -r $GITHUB_REF_NAME
