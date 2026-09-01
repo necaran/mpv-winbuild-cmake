@@ -5,6 +5,7 @@ ExternalProject_Add(freetype2
         brotli
     GIT_REPOSITORY https://github.com/freetype/freetype.git
     SOURCE_DIR ${SOURCE_LOCATION}
+    GIT_TAG VER-2-14-3
     GIT_CLONE_FLAGS "--filter=tree:0"
     GIT_SUBMODULES ""
     UPDATE_COMMAND ""
@@ -24,6 +25,4 @@ ExternalProject_Add(freetype2
     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
 )
 
-force_rebuild_git(freetype2)
 force_meson_configure(freetype2)
-cleanup(freetype2 install)
