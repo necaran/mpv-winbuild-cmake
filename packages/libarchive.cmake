@@ -1,7 +1,6 @@
 ExternalProject_Add(libarchive
     DEPENDS
         bzip2
-        lzo
         xz
         zlib
         zstd
@@ -21,12 +20,12 @@ ExternalProject_Add(libarchive
         -DBUILD_SHARED_LIBS=OFF
         -DENABLE_ZLIB=ON
         -DENABLE_ZSTD=ON
-        -DENABLE_OPENSSL=ON
+        -DENABLE_OPENSSL=OFF
         -DENABLE_BZip2=ON
         -DENABLE_ICONV=ON
         -DENABLE_LIBXML2=ON
         -DENABLE_EXPAT=OFF
-        -DENABLE_LZO=ON
+        -DENABLE_LZO=OFF
         -DENABLE_LZMA=ON
         -DENABLE_CPIO=OFF
         -DENABLE_CAT=OFF

@@ -2,8 +2,8 @@
 set(PREFIX_DIR ${CMAKE_CURRENT_BINARY_DIR}/mpv-release-prefix)
 file(WRITE ${PREFIX_DIR}/get_latest_tag.sh
 "#!/bin/bash
-tag=$(curl -sI https://github.com/mpv-player/mpv/releases/latest | grep 'location: https://github.com/mpv-player/mpv/releases' | sed 's#.*/##g' | tr -d '\r')
-printf 'https://github.com/mpv-player/mpv/archive/%s.tar.gz' $tag")
+tag=$(curl -sI https://github.com/necaran/mpv/releases/latest | grep 'location: https://github.com/necaran/mpv/releases' | sed 's#.*/##g' | tr -d '\r')
+printf 'https://github.com/necaran/mpv/archive/%s.tar.gz' $tag")
 
 # Workaround since cmake dont allow you to change file permission easily
 file(COPY ${PREFIX_DIR}/get_latest_tag.sh
@@ -15,30 +15,19 @@ execute_process(COMMAND ${PREFIX_DIR}/src/get_latest_tag.sh
 
 ExternalProject_Add(mpv-release
     DEPENDS
-        angle-headers
         ffmpeg
         fribidi
         lcms2
         libarchive
         libass
-        libdvdnav
-        libdvdread
         libiconv
         libjpeg
         libpng
         luajit
-        rubberband
         uchardet
-        openal-soft
         mujs
-        vulkan
-        shaderc
         libplacebo
         spirv-cross
-        vapoursynth
-        libsdl2
-        subrandr
-        libsixel
     URL ${LINK}
     SOURCE_DIR ${SOURCE_LOCATION}
     CONFIGURE_COMMAND ${EXEC} CONF=1 meson setup <BINARY_DIR> <SOURCE_DIR>
@@ -56,20 +45,12 @@ ExternalProject_Add(mpv-release
         -Dpdf-build=enabled
         -Dlua=enabled
         -Djavascript=enabled
-        -Dsdl2-gamepad=enabled
         -Dlibarchive=enabled
-        -Dlibbluray=enabled
-        -Ddvdnav=enabled
+        -Dlibbluray=disabled
         -Duchardet=enabled
-        -Drubberband=enabled
         -Dlcms2=enabled
-        -Dopenal=enabled
         -Dspirv-cross=enabled
-        -Dvulkan=enabled
-        -Dvapoursynth=enabled
-        -Dsubrandr=enabled
-        -Dsixel=enabled
-        ${mpv_gl}
+        -Dvulkan=disabled
         -Dc_args='-Wno-error=int-conversion'
     BUILD_COMMAND ${EXEC} LTO_JOB=1 ninja -C <BINARY_DIR>
     INSTALL_COMMAND ""
