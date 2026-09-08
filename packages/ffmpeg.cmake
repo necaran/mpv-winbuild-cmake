@@ -3,6 +3,7 @@ ExternalProject_Add(ffmpeg
         amf-headers
         nvcodec-headers
         bzip2
+        openssl
         libass
         libpng
         libsoxr
@@ -34,7 +35,7 @@ ExternalProject_Add(ffmpeg
         --enable-libsoxr
         --enable-libdav1d
         --enable-libzimg
-        --enable-schannel
+        --enable-openssl
         --enable-libxml2
         --enable-libplacebo
         --enable-cuda-llvm

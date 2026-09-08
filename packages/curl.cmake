@@ -1,7 +1,11 @@
 ExternalProject_Add(curl
     DEPENDS
         brotli
+#        c-ares
+        ngtcp2
         nghttp2
+        nghttp3
+        openssl
         zlib
     GIT_REPOSITORY https://github.com/curl/curl.git
     SOURCE_DIR ${SOURCE_LOCATION}
@@ -26,16 +30,24 @@ ExternalProject_Add(curl
         -DCURL_USE_LIBPSL=OFF
         -DCURL_USE_LIBSSH=OFF
         -DCURL_USE_LIBSSH2=OFF
-        -DCURL_USE_SCHANNEL=ON
+        -DCURL_USE_OPENSSL=ON
+#        -DENABLE_ARES=ON
         -DENABLE_CURL_MANUAL=OFF
         -DENABLE_UNICODE=ON
+#        -DENABLE_THREADED_RESOLVER=O
         -DUSE_NGHTTP2=ON
+        -DUSE_NGHTTP3=ON
+        -DUSE_NGTCP2=ON
         -DUSE_WIN32_IDN=ON
         -DUSE_WINDOWS_SSPI=ON
         -DCURL_DISABLE_LDAP=ON
+#        -DUSE_ECH=ON
+#        -DUSE_HTTPSRR=ON
+        -DUSE_SSLS_EXPORT=ON
+        -DUSE_PROXY_HTTP3=ON
         -DCURL_USE_PKGCONFIG=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_Perl=ON
-        "-DCMAKE_C_FLAGS='-DNGHTTP2_STATICLIB -lz -lbrotlienc -lbrotlidec -lbrotlicommon -lcrypt32 -lsecur32'"
+        "-DCMAKE_C_FLAGS='-DNGHTTP3_STATICLIB -DNGHTTP2_STATICLIB -DNGTCP2_STATICLIB -lz -lbrotlienc -lbrotlidec -lbrotlicommon -lcrypt32 -lsecur32'"
     BUILD_COMMAND ${EXEC} ninja -C <BINARY_DIR>
     INSTALL_COMMAND ${EXEC} ninja -C <BINARY_DIR> install
     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
