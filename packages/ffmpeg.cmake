@@ -1,5 +1,6 @@
 ExternalProject_Add(ffmpeg
     DEPENDS
+        openssl
         libass
         libbluray
         libpng
@@ -31,7 +32,7 @@ ExternalProject_Add(ffmpeg
         --enable-libsoxr
         --enable-libdav1d
         --enable-libzimg
-        --enable-schannel
+        --enable-openssl
         --enable-libplacebo
         --disable-cuda-llvm
         --disable-cuvid
