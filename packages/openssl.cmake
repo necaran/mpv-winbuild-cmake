@@ -1,14 +1,10 @@
 ExternalProject_Add(openssl
-    DEPENDS
-        zlib
-        zstd
-        brotli
     GIT_REPOSITORY https://github.com/openssl/openssl.git
     SOURCE_DIR ${SOURCE_LOCATION}
     GIT_CLONE_FLAGS "--sparse --filter=tree:0"
     GIT_CLONE_POST_COMMAND "sparse-checkout set --no-cone /* !test"
     GIT_REMOTE_NAME origin
-    GIT_RESET d8bf6cdd4849925c30e4f1911c7acb49cb34b702
+    GIT_RESET f089acdf4bc7ba94a79f4bf6eb7362c3e7d14aa9
     GIT_SUBMODULES ""
     UPDATE_COMMAND ""
     PATCH_COMMAND ${EXEC} git am --3way ${CMAKE_CURRENT_SOURCE_DIR}/openssl-*.patch
@@ -22,11 +18,9 @@ ExternalProject_Add(openssl
         ${openssl_target}
         ${openssl_ec_opt}
         no-ssl3-method
-        enable-brotli
         no-whirlpool
         no-filenames
         no-camellia
-        enable-zstd
         no-capieng
         no-shared
         no-rmd160
@@ -58,7 +52,42 @@ ExternalProject_Add(openssl
         no-cmp
         no-dh
         no-bf
-        zlib
+        no-tls1
+        no-tls1_1
+        no-deprecated
+        no-autoerrinit
+        no-ct
+        no-dgram
+        no-gost
+        no-http
+        no-nextprotoneg
+        no-posix-io
+        no-rdrand
+        no-rfc3779
+        no-srtp
+        no-ssl-trace
+        no-ts
+        no-uplink
+        no-integrity-only-ciphers
+        no-blake2
+        no-des
+        no-ec2m
+        no-hmac-drbg-kdf
+        no-kbkdf
+        no-krb5kdf
+        no-ml-dsa
+        no-ocb
+        no-pvkkdf
+        no-scrypt
+        no-siphash
+        no-siv
+        no-slh-dsa
+        no-snmpkdf
+        no-srtpkdf
+        no-sshkdf
+        no-sskdf
+        no-x942kdf
+        no-x963kdf
     BUILD_COMMAND ${MAKE} build_sw
     INSTALL_COMMAND ${MAKE} install_sw
     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
